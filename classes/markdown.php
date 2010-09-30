@@ -1,13 +1,15 @@
 <?php
 
 /**
- * @license see License.md
+ * @Copyright (c) 2004-2009 Michel Fortin
+ * <http://michelf.com/>
+ * All rights reserved.
+ * 
+ * Based on *Markdown*
+ * @Copyright (c) 2003-2006 John Gruber
+ * <http://daringfireball.net/>
+ * All rights reserved.
  */
-/**
- * The version of markdown in use
- * @var string
- */
-define('MARKDOWN_VERSION', "1.0.1n"); // Sat 10 Oct 2009
 
 /**
  * Change to ">" for HTML output
