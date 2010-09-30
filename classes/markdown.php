@@ -11,7 +11,6 @@
  * Neither the name “PHP Markdown” nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
  * This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
  */
-
 /**
  * The version of markdown in use
  * @var string
@@ -53,7 +52,6 @@ define('MARKDOWN_VERSION', "1.0.1n"); // Sat 10 Oct 2009
  * @var string
  */
 @define('MARKDOWN_FN_BACKLINK_CLASS', "");
-
 
 class Markdown {
 
@@ -227,6 +225,10 @@ class Markdown {
 	 */
 	protected $utf8_strlen = 'mb_strlen';
 
+	public function __invoke($text) {
+		return $this->transform($text);
+	}
+
 	/**
 	 * Constructor function. Initialize appropriate member variables.
 	 */
@@ -348,7 +350,7 @@ class Markdown {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param array $matches
 	 * @return string
 	 */
@@ -367,11 +369,11 @@ class Markdown {
 	 * "paragraphs" that are wrapped in non-block-level tags, such as anchors,
 	 * phrase emphasis, and spans. The list of tags we're looking for is
 	 * hard-coded:
-	 *	*	List "a" is made of tags which can be both inline or block-level.
-	 *		These will be treated block-level when the start tag is alone on
-	 *		its line, otherwise they're not matched here and will be taken as
-	 *		inline later.
-	 *	*	List "b" is made of tags which are always block-level;
+	 * 	*	List "a" is made of tags which can be both inline or block-level.
+	 * 		These will be treated block-level when the start tag is alone on
+	 * 		its line, otherwise they're not matched here and will be taken as
+	 * 		inline later.
+	 * 	*	List "b" is made of tags which are always block-level;
 	 * @param string $text
 	 * @return string
 	 */
@@ -381,7 +383,7 @@ class Markdown {
 
 		$less_than_tab = $this->tab_width - 1;
 
-		
+
 		$block_tags_a_re = 'ins|del';
 		$block_tags_b_re = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|address|' .
 				'script|noscript|form|fieldset|iframe|math';
@@ -400,7 +402,7 @@ class Markdown {
 			  |
 				\'[^\']*\'	// text inside single quotes (tolerate ">")
 			  )*
-			)?	
+			)?
 			';
 		$content =
 				str_repeat('
@@ -417,7 +419,7 @@ class Markdown {
 				str_repeat('
 					  </\2\s*>	// closing nested tag
 					)
-				  |				
+				  |
 					<(?!/\2\s*>	// other tags with a different name
 				  )
 				)*',
@@ -441,7 +443,7 @@ class Markdown {
 				|
 				\A\n?
 			)
-			(					
+			(
 						[ ]{0,' . $less_than_tab . '}
 						<(' . $block_tags_b_re . ')
 						' . $attr . '>
@@ -459,7 +461,7 @@ class Markdown {
 						</\3>
 						[ ]*
 						(?=\n+|\Z)
-					
+
 			|
 						[ ]{0,' . $less_than_tab . '}
 						<(hr)
@@ -467,18 +469,18 @@ class Markdown {
 						/?>
 						[ ]*
 						(?=\n{2,}|\Z)
-			
+
 			|
-			
+
 					[ ]{0,' . $less_than_tab . '}
 					(?s:
 						<!-- .*? -->
 					)
 					[ ]*
 					(?=\n{2,}|\Z)
-			
+
 			|
-			
+
 					[ ]{0,' . $less_than_tab . '}
 					(?s:
 						<([?%])
@@ -487,7 +489,7 @@ class Markdown {
 					)
 					[ ]*
 					(?=\n{2,}|\Z)
-					
+
 			)
 			)}Sxmi',
 						array(&$this, 'hashHTMLBlocks_callback'),
@@ -503,16 +505,14 @@ class Markdown {
 	}
 
 	function hashPart($text, $boundary = 'X') {
-		
+
 		// Called whenever a tag must be hashed when a function insert an atomic
 		// element in the text stream. Passing $text to through this function gives
 		// a unique text-token which will be reverted back when calling unhash.
-		
 		// The $boundary argument specify what character should be used to surround
 		// the token. By convension, "B" is used for block elements that needs not
 		// to be wrapped into paragraph tags at the end, ":" is used for elements
 		// that are word separators and "X" is used in the general case.
-		
 		// Swap back any tag hash found in $text so we do not have to `unhash`
 		// multiple times at the end.
 		$text = $this->unhash($text);
@@ -525,16 +525,15 @@ class Markdown {
 	}
 
 	function hashBlock($text) {
-		
+
 		// Shortcut function for hashPart with block-level boundaries.
-		
+
 		return $this->hashPart($text, 'B');
 	}
 
 	function runBlockGamut($text) {
-		
+
 		// Run block gamut tranformations.
-		
 		// We need to escape raw HTML in Markdown source before doing anything
 		// else. This need to be done for each block, and not only at the
 		// begining in the Markdown function since hashed blocks can be part of
@@ -546,11 +545,11 @@ class Markdown {
 	}
 
 	function runBasicBlockGamut($text) {
-		
+
 		// Run block gamut tranformations, without hashing HTML blocks. This is
 		// useful when HTML blocks are known to be already hashed, like in the first
 		// whole-document pass.
-		
+
 		foreach ($this->block_gamut as $method => $priority) {
 			$text = $this->$method($text);
 		}
@@ -579,9 +578,9 @@ class Markdown {
 	}
 
 	function runSpanGamut($text) {
-		
+
 		// Run span gamut tranformations.
-		
+
 		foreach ($this->span_gamut as $method => $priority) {
 			$text = $this->$method($text);
 		}
@@ -600,16 +599,16 @@ class Markdown {
 	}
 
 	function doAnchors($text) {
-		
+
 		// Turn Markdown link shortcuts into XHTML <a> tags.
-		
+
 		if ($this->in_anchor)
 			return $text;
 		$this->in_anchor = true;
 
-		
+
 		// First, handle reference-style links: [link text] [id]
-		
+
 		$text = preg_replace_callback('{
 			(
 			  \[
@@ -626,9 +625,9 @@ class Markdown {
 			}xs',
 						array(&$this, 'doAnchors_reference_callback'), $text);
 
-		
+
 		// Next, inline-style links: [link text](url "optional title")
-		
+
 		$text = preg_replace_callback('{
 			(
 			  \[
@@ -653,11 +652,11 @@ class Markdown {
 			}xs',
 						array(&$this, 'doAnchors_inline_callback'), $text);
 
-		
+
 		// Last, handle reference-style shortcuts: [link text]
 		// These must come last in case you've also got [link text][1]
 		// or [link text](/foo)
-		
+
 		$text = preg_replace_callback('{
 			(
 			  \[
@@ -726,11 +725,10 @@ class Markdown {
 	}
 
 	function doImages($text) {
-		
-		// Turn Markdown image shortcuts into <img> tags.
 
+		// Turn Markdown image shortcuts into <img> tags.
 		// First, handle reference-style labeled images: ![alt text][id]
-		
+
 		$text = preg_replace_callback('{
 			(
 			  !\[
@@ -748,10 +746,10 @@ class Markdown {
 			}xs',
 						array(&$this, 'doImages_reference_callback'), $text);
 
-		
+
 		// Next, handle inline images:  ![alt text](url "optional title")
 		// Don't forget: encode * and _
-		
+
 		$text = preg_replace_callback('{
 			(
 			  !\[
@@ -874,9 +872,9 @@ class Markdown {
 	}
 
 	function doLists($text) {
-		
+
 		// Form HTML ordered (numbered) and unordered (bulleted) lists.
-		
+
 		$less_than_tab = $this->tab_width - 1;
 
 		// Re-usable patterns to match list item bullets and number markers:
@@ -1058,18 +1056,18 @@ class Markdown {
 	}
 
 	function makeCodeSpan($code) {
-		
+
 		// Create a code span markup for $code. Called from handleSpanToken.
-		
+
 		$code = htmlspecialchars(trim($code), ENT_NOQUOTES);
 		return $this->hashPart("<code>$code</code>");
 	}
 
 	function prepareItalicsAndBold() {
-		
+
 		// Prepare regular expressions for searching emphasis tokens in any
 		// context.
-		
+
 		foreach ($this->em_relist as $em => $em_re) {
 			foreach ($this->strong_relist as $strong => $strong_re) {
 				// Construct list of allowed token expressions.
@@ -1095,16 +1093,16 @@ class Markdown {
 		$tree_char_em = false;
 
 		while (1) {
-			
+
 			// Get prepared regular expression for seraching emphasis tokens
 			// in current context.
-			
+
 			$token_re = $this->em_strong_prepared_relist["$em$strong"];
 
-			
+
 			// Each loop iteration search for the next emphasis token.
 			// Each token is then passed to handleSpanToken.
-			
+
 			$parts = preg_split($token_re, $text, 2, PREG_SPLIT_DELIM_CAPTURE);
 			$text_stack[0] .= $parts[0];
 			$token = & $parts[1];
@@ -1294,7 +1292,7 @@ class Markdown {
 //					// We can't call Markdown(), because that resets the hash;
 //					// that initialization code should be pulled into its own sub, though.
 //					$div_content = $this->hashHTMLBlocks($div_content);
-//					
+//
 //					// Run document gamut methods on the content.
 //					foreach ($this->document_gamut as $method => $priority) {
 //						$div_content = $this->$method($div_content);
@@ -1411,6 +1409,7 @@ class Markdown {
 				// roughly 10% raw, 45% hex, 45% dec
 				// '@' *must* be encoded. I insist.
 				if ($r > 90 && $char != '@') /* do nothing
+
 
 					*/;
 				else if ($r < 45)
@@ -1554,7 +1553,7 @@ class Markdown {
 		if (function_exists($this->utf8_strlen))
 			return;
 		$this->utf8_strlen = create_function('$text', 'return preg_match_all(
-			"/[\\\\x00-\\\\xBF]|[\\\\xC0-\\\\xFF][\\\\x80-\\\\xBF]*/", 
+			"/[\\\\x00-\\\\xBF]|[\\\\xC0-\\\\xFF][\\\\x80-\\\\xBF]*/",
 			$text, $m);');
 	}
 
