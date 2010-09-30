@@ -247,7 +247,7 @@ class Markdown {
 	/**
 	 * Called before the transformation process starts to setup parser starts
 	 */
-	protected protected function setup() {
+	protected function setup() {
 		//Clear global hashes.
 		$this->urls = $this->predef_urls;
 		$this->titles = $this->predef_titles;
@@ -259,7 +259,7 @@ class Markdown {
 	/**
 	 * Called after the transformation process to clear any variable which may be taking up memory unnecessarly.
 	 */
-	protected protected function teardown() {
+	protected function teardown() {
 		$this->urls = array();
 		$this->titles = array();
 		$this->html_hashes = array();
@@ -346,7 +346,7 @@ class Markdown {
 	 * @param array $matches
 	 * @return string
 	 */
-	protected protected function stripLinkDefinitions_callback($matches) {
+	protected function stripLinkDefinitions_callback($matches) {
 		$link_id = strtolower($matches[1]);
 		$url = $matches[2] == '' ? $matches[3] : $matches[2];
 		$this->urls[$link_id] = $url;
@@ -490,7 +490,7 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function hashHTMLBlocks_callback($matches) {
+	protected function hashHTMLBlocks_callback($matches) {
 		$text = $matches[1];
 		$key = $this->hashBlock($text);
 		return "\n\n$key\n\n";
@@ -586,7 +586,7 @@ class Markdown {
 				array(&$this, 'doHardBreaks_callback'), $text);
 	}
 
-	protected protected function doHardBreaks_callback($matches) {
+	protected function doHardBreaks_callback($matches) {
 		return $this->hashPart("<br$this->empty_element_suffix\n");
 	}
 
@@ -662,7 +662,7 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function doAnchors_reference_callback($matches) {
+	protected function doAnchors_reference_callback($matches) {
 		$whole_match = $matches[1];
 		$link_text = $matches[2];
 		$link_id = & $matches[3];
@@ -696,7 +696,7 @@ class Markdown {
 		return $result;
 	}
 
-	protected protected function doAnchors_inline_callback($matches) {
+	protected function doAnchors_inline_callback($matches) {
 		$whole_match = $matches[1];
 		$link_text = $this->runSpanGamut($matches[2]);
 		$url = $matches[3] == '' ? $matches[4] : $matches[3];
@@ -770,7 +770,7 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function doImages_reference_callback($matches) {
+	protected function doImages_reference_callback($matches) {
 		$whole_match = $matches[1];
 		$alt_text = $matches[2];
 		$link_id = strtolower($matches[3]);
@@ -798,7 +798,7 @@ class Markdown {
 		return $result;
 	}
 
-	protected protected function doImages_inline_callback($matches) {
+	protected function doImages_inline_callback($matches) {
 		$whole_match = $matches[1];
 		$alt_text = $matches[2];
 		$url = $matches[3] == '' ? $matches[4] : $matches[3];
@@ -847,7 +847,7 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function doHeaders_callback_setext($matches) {
+	protected function doHeaders_callback_setext($matches) {
 		// Terrible hack to check we haven't found an empty list item.
 		if ($matches[2] == '-' && preg_match('{^-(?: |$)}', $matches[1]))
 			return $matches[0];
@@ -857,7 +857,7 @@ class Markdown {
 		return "\n" . $this->hashBlock($block) . "\n\n";
 	}
 
-	protected protected function doHeaders_callback_atx($matches) {
+	protected function doHeaders_callback_atx($matches) {
 		$level = strlen($matches[1]);
 		$block = "<h$level>" . $this->runSpanGamut($matches[2]) . "</h$level>";
 		return "\n" . $this->hashBlock($block) . "\n\n";
@@ -928,7 +928,7 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function doLists_callback($matches) {
+	protected function doLists_callback($matches) {
 		// Re-usable patterns to match list item bullets and number markers:
 		$marker_ul_re = '[*+-]';
 		$marker_ol_re = '\d+[.]';
@@ -993,7 +993,7 @@ class Markdown {
 		return $list_str;
 	}
 
-	protected protected function processListItems_callback($matches) {
+	protected function processListItems_callback($matches) {
 		$item = $matches[4];
 		$leading_line = & $matches[1];
 		$leading_space = & $matches[2];
@@ -1034,7 +1034,7 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function doCodeBlocks_callback($matches) {
+	protected function doCodeBlocks_callback($matches) {
 		$codeblock = $matches[1];
 
 		$codeblock = $this->outdent($codeblock);
@@ -1215,7 +1215,7 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function doBlockQuotes_callback($matches) {
+	protected function doBlockQuotes_callback($matches) {
 		$bq = $matches[1];
 		// trim one level of quoting - trim whitespace-only lines
 		$bq = preg_replace('/^[ ]*>[ ]?|^[ ]+$/m', '', $bq);
@@ -1230,7 +1230,7 @@ class Markdown {
 		return "\n" . $this->hashBlock("<blockquote>\n$bq\n</blockquote>") . "\n\n";
 	}
 
-	protected protected function doBlockQuotes_callback2($matches) {
+	protected function doBlockQuotes_callback2($matches) {
 		$pre = $matches[1];
 		$pre = preg_replace('/^  /m', '', $pre);
 		return $pre;
@@ -1361,13 +1361,13 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function doAutoLinks_url_callback($matches) {
+	protected function doAutoLinks_url_callback($matches) {
 		$url = $this->encodeAttribute($matches[1]);
 		$link = "<a href=\"$url\">$url</a>";
 		return $this->hashPart($link);
 	}
 
-	protected protected function doAutoLinks_email_callback($matches) {
+	protected function doAutoLinks_email_callback($matches) {
 		$address = $matches[1];
 		$link = $this->encodeEmailAddress($address);
 		return $this->hashPart($link);
@@ -1519,7 +1519,7 @@ class Markdown {
 		return $text;
 	}
 
-	protected protected function _detab_callback($matches) {
+	protected function _detab_callback($matches) {
 		$line = $matches[0];
 		$strlen = $this->utf8_strlen; // strlen protected function for UTF-8.
 		// Split in blocks.
@@ -1536,7 +1536,7 @@ class Markdown {
 		return $line;
 	}
 
-	protected protected function initDetab() {
+	protected function initDetab() {
 		//
 		// Check for the availability of the protected function in the `utf8_strlen` property
 		// (initially `mb_strlen`). If the protected function is not available, create a
@@ -1558,7 +1558,7 @@ class Markdown {
 				array(&$this, '_unhash_callback'), $text);
 	}
 
-	protected protected function _unhash_callback($matches) {
+	protected function _unhash_callback($matches) {
 		return $this->html_hashes[$matches[0]];
 	}
 
