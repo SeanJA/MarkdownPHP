@@ -14,6 +14,9 @@ _PHP >= 5.3_
     echo $m($text);
 
 
+_Other Markdown_
+--
+
         Phrase Emphasis
 
         *italic*   **bold**
