@@ -3,11 +3,15 @@ MarkdownPHP
 
 _Usage_
 --
-`$text = 'Some _text_ ';`
+$text = 'Some _text_ ';
+$m = new Markdown();
+echo $m->transform($text);  
 
-`$m = new Markdown();`
-
-`echo $m->transform($text);`
+_PHP >= 5.3_
+--
+    $text = 'Some _text_ ';
+    $m = new Markdown();
+    echo $m($text);
 
 
         Phrase Emphasis
