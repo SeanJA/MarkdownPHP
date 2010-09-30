@@ -3,9 +3,9 @@ MarkdownPHP
 
 _Usage_
 --
-$text = 'Some _text_ ';
-$m = new Markdown();
-echo $m->transform($text);  
+    $text = 'Some _text_ ';  
+    $m = new Markdown();
+    echo $m->transform($text);
 
 _PHP >= 5.3_
 --
