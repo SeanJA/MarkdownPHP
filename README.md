@@ -1,138 +1,138 @@
-MarkdownPHP
-==
+#MarkdownPHP#
 
-_Usage_
---
-    $text = 'Some _text_ ';  
+
+##Usage##
+
+###PHP >= 5###
+
+    $text = 'Some _text_ ';
     $m = new Markdown();
     echo $m->transform($text);
 
-_PHP >= 5.3_
---
+###PHP >= 5.3###
+
     $text = 'Some _text_ ';
     $m = new Markdown();
     echo $m($text);
 
 
-_Other Markdown_
---
+##More Examples of Markdown##
+    Phrase Emphasis
 
-        Phrase Emphasis
+    *italic*   **bold**
+    _italic_   __bold__
 
-        *italic*   **bold**
-        _italic_   __bold__
+    Links
 
-        Links
+    Inline:
 
-        Inline:
+    An [example](http://url.com/ "Title")
 
-        An [example](http://url.com/ "Title")
+    Reference-style labels (titles are optional):
 
-        Reference-style labels (titles are optional):
+    An [example][id]. Then, anywhere
+    else in the doc, define the link:
 
-        An [example][id]. Then, anywhere
-        else in the doc, define the link:
+      [id]: http://example.com/  "Title"
 
-          [id]: http://example.com/  "Title"
+    Images
 
-        Images
+    Inline (titles are optional):
 
-        Inline (titles are optional):
+    ![alt text](/path/img.jpg "Title")
 
-        ![alt text](/path/img.jpg "Title")
+    Reference-style:
 
-        Reference-style:
+    ![alt text][id]
 
-        ![alt text][id]
+      [id]: /url/to/img.jpg "Title"
 
-          [id]: /url/to/img.jpg "Title"
+    Headers
 
-        Headers
+    Setext-style:
 
-        Setext-style:
+    Header 1
+    ========
 
-        Header 1
-        ========
+    Header 2
+    --------
 
-        Header 2
-        --------
+    atx-style (closing #'s are optional):
 
-        atx-style (closing #'s are optional):
+    # Header 1 #
 
-        # Header 1 #
+    ## Header 2 ##
 
-        ## Header 2 ##
+    ###### Header 6
 
-        ###### Header 6
+    Lists
 
-        Lists
+    Ordered, without paragraphs:
 
-        Ordered, without paragraphs:
+    1.  Foo
+    2.  Bar
 
-        1.  Foo
-        2.  Bar
+    Unordered, with paragraphs:
 
-        Unordered, with paragraphs:
+    *   A list item.
 
-        *   A list item.
+        With multiple paragraphs.
 
-            With multiple paragraphs.
+    *   Bar
 
-        *   Bar
+    You can nest them:
 
-        You can nest them:
+    *   Abacus
+        * ass
+    *   Bastard
+        1.  bitch
+        2.  bupkis
+            * BELITTLER
+        3. burper
+    *   Cunning
 
-        *   Abacus
-            * ass
-        *   Bastard
-            1.  bitch
-            2.  bupkis
-                * BELITTLER
-            3. burper
-        *   Cunning
+    Blockquotes
 
-        Blockquotes
+    > Email-style angle brackets
+    > are used for blockquotes.
 
-        > Email-style angle brackets
-        > are used for blockquotes.
+    > > And, they can be nested.
 
-        > > And, they can be nested.
+    > #### Headers in blockquotes
+    >
+    > * You can quote a list.
+    > * Etc.
 
-        > #### Headers in blockquotes
-        >
-        > * You can quote a list.
-        > * Etc.
+    Code Spans
 
-        Code Spans
+    `<code>` spans are delimited
+    by backticks.
 
-        `<code>` spans are delimited
-        by backticks.
+    You can include literal backticks
+    like `` `this` ``.
 
-        You can include literal backticks
-        like `` `this` ``.
+    Preformatted Code Blocks
 
-        Preformatted Code Blocks
+    Indent every line of a code block by at least 4 spaces or 1 tab.
 
-        Indent every line of a code block by at least 4 spaces or 1 tab.
+    This is a normal paragraph.
 
-        This is a normal paragraph.
+        This is a preformatted
+        code block.
 
-            This is a preformatted
-            code block.
+    Horizontal Rules
 
-        Horizontal Rules
+    Three or more dashes or asterisks:
 
-        Three or more dashes or asterisks:
+    ---
 
-        ---
+    * * *
 
-        * * *
+    - - - -
 
-        - - - -
+    Manual Line Breaks
 
-        Manual Line Breaks
+    End a line with two or more spaces:
 
-        End a line with two or more spaces:
-
-        Roses are red,
-        Violets are blue.
+    Roses are red,  
+    Violets are blue.
