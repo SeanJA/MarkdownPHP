@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @license BSD/GPL2
+ *
+ * @Copyright (c) 2010 Sean Sandy
+ * <http://seanja.com/>
+ * All rights reserved.
  * @Copyright (c) 2004-2009 Michel Fortin
  * <http://michelf.com/>
  * All rights reserved.
