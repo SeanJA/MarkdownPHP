@@ -302,7 +302,7 @@ class Markdown {
 
 		$this->teardown();
 
-		return $text . "\n";
+		return $text . PHP_EOL;
 	}
 
 	/**
@@ -314,28 +314,24 @@ class Markdown {
 		$less_than_tab = $this->tab_width - 1;
 
 		// Link defs are in the form: ^[id]: url "optional title"
-		$text = preg_replace_callback('{
-							^[ ]{0,' . $less_than_tab . '}\[(.+)\][ ]?:	// id = $1
-							  [ ]*
-							  \n?
-							  [ ]*
-							(?:
-							  <(.+?)>
-							|
-							  (\S+?)
-							)
-							  [ ]*
-							  \n?
-							  [ ]*
-							(?:
-								(?<=\s)
-								["(]
-								(.*?)
-								[")]
-								[ ]*
-							)?	// title is optional
-							(?:\n+|\Z)
-			}xm',
+		$text = preg_replace_callback('{^[ ]'
+              .'{0,'.$less_than_tab.'}
+              \[(.+)\][ ]?:	'// id = $1
+              // maybe *one* newline
+							.'[ ]*\n?[ ]*'
+              //url = $2
+              //url = $3
+							.'(?:<(.+?)>|(\S+?))'
+              // maybe *one* newline
+              .'[ ]*\n?[ ]*'
+              //optional title = $4
+							.'(?:(?<=\s)'
+              .'["(\']'
+							.'(.*?)'
+              .'[\')"]'
+							.'[ ]*'
+							.')?'
+      .'(?:\n+|\Z)}xm',
 						array(&$this, 'stripLinkDefinitions_callback'),
 						$text);
 		return $text;
@@ -370,8 +366,9 @@ class Markdown {
 	 * @return string
 	 */
 	protected function hashHTMLBlocks($text) {
-		if ($this->no_markup)
+		if ($this->no_markup){
 			return $text;
+    }
 
 		$less_than_tab = $this->tab_width - 1;
 
