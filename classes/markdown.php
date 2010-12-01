@@ -524,25 +524,31 @@ class Markdown {
 
 		return $this->hashPart($text, 'B');
 	}
-
+  /**
+   * Run block gamut tranformations.
+   * We need to escape raw HTML in Markdown source before doing anything
+   * else. This need to be done for each block, and not only at the
+   * begining in the Markdown protected function since hashed blocks can be part of
+   * list items and could have been indented. Indented blocks would have
+   * been seen as a code block in a previous pass of hashHTMLBlocks.
+   * @param string $text
+   * @return string escaped html
+   */
 	protected function runBlockGamut($text) {
 
-		// Run block gamut tranformations.
-		// We need to escape raw HTML in Markdown source before doing anything
-		// else. This need to be done for each block, and not only at the
-		// begining in the Markdown protected function since hashed blocks can be part of
-		// list items and could have been indented. Indented blocks would have
-		// been seen as a code block in a previous pass of hashHTMLBlocks.
+		
 		$text = $this->hashHTMLBlocks($text);
 
 		return $this->runBasicBlockGamut($text);
 	}
-
+  /**
+   * Run block gamut tranformations, without hashing HTML blocks. This is
+   * useful when HTML blocks are known to be already hashed, like in the first
+   * whole-document pass.
+   * @param string $text
+   * @return string The converted text
+   */
 	protected function runBasicBlockGamut($text) {
-
-		// Run block gamut tranformations, without hashing HTML blocks. This is
-		// useful when HTML blocks are known to be already hashed, like in the first
-		// whole-document pass.
 
 		foreach ($this->block_gamut as $method => $priority) {
 			$text = $this->$method($text);
