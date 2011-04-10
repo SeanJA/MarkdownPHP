@@ -1,5 +1,7 @@
 #MarkdownPHP#
 
+##TODO##
+Clean up some of the regex calls, they have comments inside them which is not good
 
 ##Usage##
 
